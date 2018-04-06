@@ -1,0 +1,360 @@
+@import "../mixins";
+@import "../variables";
+
+// dialog box
+@dialog-padding: 15px;
+@dialog-background: #fff;
+@dialog-border: 1px solid @gray-dark;
+@dialog-buttons-margin: @dialog-padding;
+
+@dialog-scrollbar-size: 8px;
+@dialog-scrollbar-line-size: 2px;
+@dialog-scrollbar-space: 4px;
+@dialog-scrollbar-color: @gray-darker;
+@dialog-scrollbar-line-color: @gray-dark;
+@dialog-scrollbar-space-bg: #fff;
+
+// dialog wrapper - gray background of dialog
+@dialog-wrapper-padding: @dialog-padding;
+@dialog-wrapper-background: fade(@gray-dark, 50%);
+
+// DIALOG DIMENSIONS - responsive design dialog parameters
+
+@dialog-screen-xs-padding: 10px;
+@dialog-screen-xs-buttons-margin: 10px;
+@dialog-wrapper-screen-xs-padding: 0;
+
+@dialog-screen-sm-padding: @dialog-padding;
+@dialog-screen-sm-buttons-margin: @dialog-padding;
+@dialog-wrapper-screen-sm-padding: @dialog-screen-sm-padding;
+
+// Dialog SM
+@dialog-sm-width: 40%;
+@dialog-sm-max-height: 40%;
+@dialog-sm-max-width: 600px;
+@dialog-sm-pos-top: 30%;
+@dialog-sm-loading-icon-size: 100px;
+
+@dialog-sm-screen-xs-width: 80%;
+@dialog-sm-screen-xs-max-height: 80%;
+@dialog-sm-screen-xs-pos-top: 10%;
+@dialog-sm-screen-xs-loading-icon-size: @dialog-sm-loading-icon-size;
+
+@dialog-sm-screen-sm-width: 80%;
+@dialog-sm-screen-sm-max-height: 60%;
+@dialog-sm-screen-sm-pos-top: 20%;
+@dialog-sm-screen-sm-loading-icon-size: @dialog-sm-loading-icon-size;
+
+// Dialog MD
+@dialog-md-width: 60%;
+@dialog-md-max-height: 60%;
+@dialog-md-max-width: 800px;
+@dialog-md-pos-top: 15%;
+@dialog-md-loading-icon-size: 150px;
+
+@dialog-md-screen-xs-width: 90%;
+@dialog-md-screen-xs-max-height: 90%;
+@dialog-md-screen-xs-pos-top: 5%;
+@dialog-md-screen-xs-loading-icon-size: @dialog-md-loading-icon-size;
+
+@dialog-md-screen-sm-width: 80%;
+@dialog-md-screen-sm-max-height: 80%;
+@dialog-md-screen-sm-pos-top: 10%;
+@dialog-md-screen-sm-loading-icon-size: @dialog-md-loading-icon-size;
+
+// Dialog LG
+@dialog-lg-width: 100%;
+@dialog-lg-max-height: 80%;
+@dialog-lg-max-width: 1000px;
+@dialog-lg-pos-top: 10%;
+@dialog-lg-loading-icon-size: 200px;
+
+@dialog-lg-screen-xs-width: 100%;
+@dialog-lg-screen-xs-max-height: 100%;
+@dialog-lg-screen-xs-pos-top: 0;
+@dialog-lg-screen-xs-loading-icon-size: @dialog-lg-loading-icon-size;
+
+@dialog-lg-screen-sm-width: 100%;
+@dialog-lg-screen-sm-max-height: 100%;
+@dialog-lg-screen-sm-pos-top: 0;
+@dialog-lg-screen-sm-loading-icon-size: @dialog-lg-loading-icon-size;
+
+.dialog-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: @dialog-wrapper-background;
+  z-index: 1999;
+  top: 0;
+  left: 0;
+  padding: @dialog-wrapper-padding;
+
+  .dialog {
+    z-index: 2000;
+    margin-left: auto;
+    margin-right: auto;
+    padding: @dialog-padding;
+    background: @dialog-background;
+    border: @dialog-border;
+    position: relative;
+    .transition(all ease @transition-fast);
+
+    &.stretch .dialog-content {
+      .scrollbar-vertical(
+              @dialog-scrollbar-size,
+              @dialog-scrollbar-line-size,
+              @dialog-scrollbar-space,
+              @dialog-scrollbar-color,
+              @dialog-scrollbar-line-color,
+              @dialog-scrollbar-space-bg
+      );
+    }
+
+    &.dialog-sm {
+      width: @dialog-sm-width;
+      max-width: @dialog-sm-max-width;
+      top: @dialog-sm-pos-top;
+      max-height: @dialog-sm-max-height;
+
+      &.fit {
+        max-height: @dialog-sm-max-height;
+        height: auto;
+      }
+      &.stretch {
+        height: @dialog-sm-max-height;
+      }
+      .fill-content .dialog-loading {
+        .center(@dialog-sm-loading-icon-size);
+      }
+      .dialog-loading {
+        .loading-eclipse(@dialog-sm-loading-icon-size);
+      }
+    }
+
+    &.dialog-md {
+      width: @dialog-md-width;
+      max-width: @dialog-md-max-width;
+      top: @dialog-md-pos-top;
+      max-height: @dialog-md-max-height;
+
+      &.fit {
+        max-height: @dialog-md-max-height;
+        height: auto;
+      }
+      &.stretch {
+        height: @dialog-md-max-height;
+      }
+      .fill-content .dialog-loading {
+        .center(@dialog-md-loading-icon-size);
+      }
+      .dialog-loading {
+        .loading-eclipse(@dialog-md-loading-icon-size);
+      }
+    }
+
+    &.dialog-lg {
+      width: @dialog-lg-max-height;
+      max-width: @dialog-lg-max-width;
+      top: @dialog-lg-pos-top;
+
+      &.fit {
+        max-height: @dialog-lg-max-height;
+        height: auto;
+      }
+      &.stretch {
+        height: @dialog-lg-max-height;
+      }
+
+      .fill-content .dialog-loading {
+        .center(@dialog-lg-loading-icon-size);
+      }
+      .dialog-loading {
+        .loading-eclipse(@dialog-lg-loading-icon-size);
+      }
+    }
+
+    &.justified-headings {
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+      }
+    }
+
+    .dialog-buttons {
+      padding-top: @dialog-buttons-margin;
+      &:not(.text-center):not(.text-left) {
+        text-align: right;
+      }
+
+      > * {
+        text-align: left;
+      }
+      .btn {
+        margin-left: @padding-base-horizontal;
+      }
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .dialog-wrapper {
+    padding: @dialog-wrapper-screen-xs-padding;
+
+    .dialog {
+      padding: @dialog-screen-xs-padding;
+
+      &.dialog-sm {
+        width: @dialog-sm-screen-xs-width;
+        top: @dialog-sm-screen-xs-pos-top;
+        max-height: @dialog-sm-max-height;
+
+        &.fit {
+          max-height: @dialog-sm-screen-xs-max-height;
+        }
+        &.stretch {
+          height: @dialog-sm-screen-xs-max-height;
+        }
+        .fill-content .dialog-loading {
+          .center(@dialog-sm-screen-xs-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-sm-screen-xs-loading-icon-size);
+        }
+      }
+
+      &.dialog-md {
+        width: @dialog-md-screen-xs-width;
+        top: @dialog-md-screen-xs-pos-top;
+        max-height: @dialog-md-screen-xs-max-height;
+
+        &.fit {
+          max-height: @dialog-md-screen-xs-max-height;
+          height: auto;
+        }
+        &.stretch {
+          height: @dialog-md-screen-xs-max-height;
+        }
+        .fill-content .dialog-loading {
+          .center(@dialog-md-screen-xs-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-md-screen-xs-loading-icon-size);
+        }
+      }
+
+      &.dialog-lg {
+        width: @dialog-lg-screen-xs-width;
+        top: @dialog-lg-screen-xs-pos-top;
+
+        &.fit {
+          max-height: @dialog-lg-screen-xs-max-height;
+          height: auto;
+        }
+        &.stretch {
+          height: @dialog-lg-screen-xs-max-height;
+        }
+
+        .fill-content .dialog-loading {
+          .center(@dialog-lg-screen-xs-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-lg-screen-xs-loading-icon-size);
+        }
+      }
+
+      .dialog-buttons {
+        padding-top: @dialog-screen-xs-buttons-margin;
+      }
+
+      h1.dialog-heading,
+      h2.dialog-heading,
+      h3.dialog-heading,
+      h4.dialog-heading,
+      h5.dialog-heading,
+      h6.dialog-heading {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .dialog-wrapper {
+    padding: @dialog-wrapper-screen-sm-padding;
+
+    .dialog {
+      padding: @dialog-screen-sm-padding;
+
+      &.dialog-sm {
+        width: @dialog-sm-screen-sm-width;
+        top: @dialog-sm-screen-sm-pos-top;
+        max-height: @dialog-sm-max-height;
+
+        &.fit {
+          max-height: @dialog-sm-screen-sm-max-height;
+        }
+        &.stretch {
+          height: @dialog-sm-screen-sm-max-height;
+        }
+        .fill-content .dialog-loading {
+          .center(@dialog-sm-screen-sm-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-sm-screen-sm-loading-icon-size);
+        }
+      }
+
+      &.dialog-md {
+        width: @dialog-md-screen-sm-width;
+        top: @dialog-md-screen-sm-pos-top;
+        max-height: @dialog-md-screen-sm-max-height;
+
+        &.fit {
+          max-height: @dialog-md-screen-sm-max-height;
+          height: auto;
+        }
+        &.stretch {
+          height: @dialog-md-screen-sm-max-height;
+        }
+        .fill-content .dialog-loading {
+          .center(@dialog-md-screen-sm-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-md-screen-sm-loading-icon-size);
+        }
+      }
+
+      &.dialog-lg {
+        width: @dialog-lg-screen-sm-width;
+        top: @dialog-lg-screen-sm-pos-top;
+
+        &.fit {
+          max-height: @dialog-lg-screen-sm-max-height;
+          height: auto;
+        }
+        &.stretch {
+          height: @dialog-lg-screen-sm-max-height;
+        }
+
+        .fill-content .dialog-loading {
+          .center(@dialog-lg-screen-sm-loading-icon-size);
+        }
+        .dialog-loading {
+          .loading-eclipse(@dialog-lg-screen-sm-loading-icon-size);
+        }
+      }
+
+      .dialog-buttons {
+        padding-top: @dialog-screen-sm-buttons-margin;
+      }
+
+      h1.dialog-heading,
+      h2.dialog-heading,
+      h3.dialog-heading,
+      h4.dialog-heading,
+      h5.dialog-heading,
+      h6.dialog-heading {
+        margin-top: 0;
+      }
+    }
+  }
+}
