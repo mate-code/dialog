@@ -1,13 +1,21 @@
 {
-    "name": "mate-code/dialog",
-    "type": "component",
-    "description": "Flexible JS dialog box for HTML content",
-    "keywords": ["bootstrap", "php", "html", "css"],
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Marius Teller",
-            "email": "marius.teller@mail.de"
-        }
-    ]
+  "name": "mate-code/dialog",
+  "type": "component",
+  "description": "Flexible JS dialog box for HTML content",
+  "keywords": [
+    "bootstrap",
+    "php",
+    "html",
+    "css"
+  ],
+  "license": "BSD-3-Clause",
+  "require": {
+    "mate-code/mate-mixins": "~1.0"
+  },
+  "authors": [
+    {
+      "name": "Marius Teller",
+      "email": "marius.teller@mail.de"
+    }
+  ]
 }

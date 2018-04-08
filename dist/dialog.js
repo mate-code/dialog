@@ -18,6 +18,7 @@ var dialogCount = 0;
  * buttonContainerClass: Class of the div containing the rendered buttons
  * content: HTML to be used as dialog content
  * openOnLoad: Determines if the open method should be triggered after the start event
+ * showCloseIcon: Show an "X" in the upper right corner to close the dialog
  * dialogClass: Layout  class of the dialog:
  * - "fit" will fit the content in the box, using a scrollbar if necessary
  * - "stretch" will always make the dialog its maximum size
@@ -41,11 +42,12 @@ function Dialog(data) {
     this.headingSize = typeof data.headingSize === "undefined" ? "h1" : data.headingSize;
     this.headingClass = typeof data.headingClass === "undefined" ? "dialog-heading justified-top" : data.headingClass;
     this.dialogId = typeof data.dialogId === "undefined" ? 'dialog-' + dialogCount : data.dialogId;
-    this.buttons = typeof data.buttons === "undefined" ? {close: {template: "close"}} : data.buttons;
+    this.buttons = typeof data.buttons === "undefined" ? {} : data.buttons;
     this.buttonContainerClass = typeof data.buttonContainerClass === "undefined" ? "" : data.buttonContainerClass;
     this.content = typeof data.content === "undefined" ? '' : data.content;
     this.dialogClass = typeof data.dialogClass === "undefined" ? 'fit' : data.dialogClass;
     this.openOnLoad = typeof data.openOnLoad === "undefined" ? true : data.openOnLoad;
+    this.showCloseIcon = typeof data.showCloseIcon === "undefined" ? true : data.showCloseIcon;
     this.wrapperElement = null;
     this.boxElement = null;
     this.contentElement = null;
@@ -70,12 +72,12 @@ function Dialog(data) {
     this.adjustContentElement = function() {
         var elementsHeight = 0;
         dialog.wrapperElement.find(".dialog > *").each(function () {
-            if ($(this).attr("class").indexOf("dialog-content") !== -1) {
+            if ($(this).attr("class").indexOf("dialog-content") !== -1 || $(this).attr("class").indexOf("dialog-close-icon") !== -1) {
                 return;
             }
             elementsHeight += $(this).outerHeight();
-            elementsHeight += parseInt($(this).css("marginTop").replace('px', ''));
-            elementsHeight += parseInt($(this).css("marginBottom").replace('px', ''));
+            elementsHeight += parseInt($(this).css("marginTop").replace('px', '').toString());
+            elementsHeight += parseInt($(this).css("marginBottom").replace('px', '').toString());
         });
         var maxContentHeight = dialog.wrapperElement.find(".dialog").height() - elementsHeight;
         if(dialog.dialogClass.indexOf("fit") !== -1) {
@@ -93,6 +95,9 @@ function Dialog(data) {
     this.render = function() {
         var self = this;
         var dialogHtml = '<div class="dialog dialog-' + this.size + ' ' + this.dialogClass + '">';
+        if(this.showCloseIcon) {
+            dialogHtml += '<span class="glyphicon glyphicon-remove dialog-close dialog-close-icon"></span>';
+        }
         // heading
         if(this.heading) {
             dialogHtml += '<' + this.headingSize + ' class="' + this.headingClass + '">';
@@ -154,6 +159,9 @@ function Dialog(data) {
                 buttonContainer.append(buttonElement);
             });
         }
+        this.wrapperElement.find('.dialog-close').click(function(e){
+            self.close(self);
+        });
         this.wrapperElement.click(function(e){
             // Only hide if the dialogs background was clicked
             if(e.target !== e.currentTarget) return;
